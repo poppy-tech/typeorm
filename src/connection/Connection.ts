@@ -522,9 +522,11 @@ export class Connection {
         ObjectUtils.assign(this, { subscribers: subscribers });
 
         // build entity metadatas
-        const entityMetadatas = await connectionMetadataBuilder.buildEntityMetadatas(this.options.entities || []);
-        ObjectUtils.assign(this, { entityMetadatas: entityMetadatas });
-
+        if (!entityMetadatas) {
+            const entityMetadatas = await connectionMetadataBuilder.buildEntityMetadatas(this.options.entities || []);
+            ObjectUtils.assign(this, { entityMetadatas: entityMetadatas });
+        }
+        
         // create migration instances
         const migrations = await connectionMetadataBuilder.buildMigrations(this.options.migrations || []);
         ObjectUtils.assign(this, { migrations: migrations });
