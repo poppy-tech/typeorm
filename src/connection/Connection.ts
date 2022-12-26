@@ -522,7 +522,7 @@ export class Connection {
         ObjectUtils.assign(this, { subscribers: subscribers });
 
         // build entity metadatas
-        if (!entityMetadatas) {
+        if (!this.entityMetadatas) {
             const entityMetadatas = await connectionMetadataBuilder.buildEntityMetadatas(this.options.entities || []);
             ObjectUtils.assign(this, { entityMetadatas: entityMetadatas });
         }
