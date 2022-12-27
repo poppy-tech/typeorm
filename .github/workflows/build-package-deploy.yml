@@ -45,6 +45,8 @@ jobs:
         run: |
           npm run package
       ## Deploy to github package repo
+      - name: Debug npmrc
+        run: echo .npmrc
       - name: Deploy
         run: |
           npm publish
