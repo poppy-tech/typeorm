@@ -521,15 +521,17 @@ export class Connection {
         const subscribers = await connectionMetadataBuilder.buildSubscribers(this.options.subscribers || []);
         ObjectUtils.assign(this, { subscribers: subscribers });
 
-        // build entity metadatas
-        if (!this.entityMetadatas) {
+        // build entity metadatas, but only if they were not built yet
+        if (this.entityMetadatas.length === 0) {
             const entityMetadatas = await connectionMetadataBuilder.buildEntityMetadatas(this.options.entities || []);
             ObjectUtils.assign(this, { entityMetadatas: entityMetadatas });
         }
         
         // create migration instances
-        const migrations = await connectionMetadataBuilder.buildMigrations(this.options.migrations || []);
-        ObjectUtils.assign(this, { migrations: migrations });
+        if (this.migrations.length === 0) {
+            const migrations = await connectionMetadataBuilder.buildMigrations(this.options.migrations || []);
+            ObjectUtils.assign(this, { migrations: migrations });
+        }
 
         // validate all created entity metadatas to make sure user created entities are valid and correct
         entityMetadataValidator.validateMany(this.entityMetadatas.filter(metadata => metadata.tableType !== "view"), this.driver);
