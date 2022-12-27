@@ -526,6 +526,7 @@ export class Connection {
             const entityMetadatas = await connectionMetadataBuilder.buildEntityMetadatas(this.options.entities || []);
             ObjectUtils.assign(this, { entityMetadatas: entityMetadatas });
         }
+        console.log("this.entityMetadatas", JSON.stringify(this.entityMetadatas.map((e) => e.name)));
         
         // create migration instances
         if (this.migrations.length === 0) {
